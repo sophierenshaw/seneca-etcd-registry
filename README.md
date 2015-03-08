@@ -1,0 +1,1 @@
+# seneca-etcd-registry
