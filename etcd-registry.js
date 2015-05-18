@@ -1,24 +1,70 @@
-var seneca = require('seneca')()
+"use strict";
+
+var _ = require('lodash')
+var seneca = require('seneca')
 
 Etcd = require('node-etcd');
 etcd = new Etcd();
 
-var getset = function(options){
+seneca.add('role:registry,cmd:set', 	cmd_set)
+seneca.add('role:registry,cmd:get', 	cmd_get)
+seneca.add('role:registry,cmd:remove',	cmd_remove)
+seneca.add('role:registry,cmd:list',	cmd_list)
 
-etcd.set("key","value",{ttl: 60}, console.log);
-etcd.get("key", {ttl: 60}, console.log);
+function cmd_set( args, done ){
+  var keyparts = parsekey(args.key)
+  setparts(keyparts,args.value)
+//etcd.set("key","value",{ttl: 60}, console.log);
+  done()
 }
 
-var list = function( options ){
+function cmd_get( args, done ){
+  var keyparts = parsekey(args.key)
+//etcd.get("key", {ttl: 60}, console.log);
+  done(null,{value:getparts(keyparts)})
+}
+
+function cmd_list( args, done ){
+  var keyparts = parsekey(args.key)  
+  done()
+}
+
+function cmd_remove( args, done ){
+  var keyparts = parsekey(args.key)
+//etcd.del("key", console.log);
+  removeparts(keyparts)
+  done()
+}
+
+function parsekey( keystr ){
+  var parts = (keystr||"").split("/")
+  return parts
 
 }
 
-var remove = function( options ){
+function setparts( parts, value ){
 
-etcd.del("key", console.log);
+  etcd.set(parts,value)
 
 }
 
-seneca.use(getset)
-seneca.use(list)
-seneca.use(remove)
+function getparts( parts ){
+ 
+  etcd.get(parts)
+
+}
+
+function removeparts( parts ){
+
+  etcd.del(parts)
+
+}
+
+function listparts( parts ){
+
+  
+}
+seneca.use(cmd_set)
+seneca.use(cmd_get)
+seneca.use(cmd_list)
+seneca.use(cmd_remove)
