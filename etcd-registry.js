@@ -1,7 +1,14 @@
+/*Copyright (c) 2015, MIT License */
+/* jshint node:true, asi:true, eqnull:true, loopfunc:true*/
 "use strict";
 
 var _ = require('lodash')
-var seneca = require('seneca')
+
+module.exports = function(options) {
+  var seneca = this
+
+  options = seneca.util.deepextend({
+  },options)
 
 Etcd = require('node-etcd');
 etcd = new Etcd();
@@ -14,13 +21,11 @@ seneca.add('role:registry,cmd:list',	cmd_list)
 function cmd_set( args, done ){
   var keyparts = parsekey(args.key)
   setparts(keyparts,args.value)
-//etcd.set("key","value",{ttl: 60}, console.log);
   done()
 }
 
 function cmd_get( args, done ){
   var keyparts = parsekey(args.key)
-//etcd.get("key", {ttl: 60}, console.log);
   done(null,{value:getparts(keyparts)})
 }
 
@@ -31,9 +36,16 @@ function cmd_list( args, done ){
 
 function cmd_remove( args, done ){
   var keyparts = parsekey(args.key)
-//etcd.del("key", console.log);
   removeparts(keyparts)
   done()
+}
+
+seneca.add('init:registry',function(args,done){
+  done()
+})
+
+return {
+  name:"registry"
 }
 
 function parsekey( keystr ){
@@ -44,7 +56,7 @@ function parsekey( keystr ){
 
 function setparts( parts, value ){
 
-  etcd.set(parts,value)
+  etcd.set(parts, value, console.log);
 
 }
 
@@ -60,11 +72,7 @@ function removeparts( parts ){
 
 }
 
-function listparts( parts ){
+function listkeys( parts ){
 
   
 }
-seneca.use(cmd_set)
-seneca.use(cmd_get)
-seneca.use(cmd_list)
-seneca.use(cmd_remove)
