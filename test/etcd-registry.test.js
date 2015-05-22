@@ -17,7 +17,6 @@ describe('plugin', function(){
   it('getset', function(fin) {
     var si = seneca({log:'silent'})
     si.use('..')
-    var store = si.export('registry/store')
 
     si
       .start(fin)
@@ -40,7 +39,6 @@ describe('plugin', function(){
   it('remove', function(fin) {
     var si = seneca({log:'silent'})
     si.use('..')
-    var store = si.export('registry/store')
 
     si
       .start(fin)
@@ -100,7 +98,6 @@ describe('plugin', function(){
   it('list', function(fin) {
     var si = seneca({log:'silent'})
     si.use('..')
-    var store = si.export('registry/store')
 
     si
       .start(fin)
