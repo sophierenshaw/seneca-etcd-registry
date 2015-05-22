@@ -1,5 +1,5 @@
 # seneca-etcd-registry
-The seneca-etcd-registry driver supports the use of etcd to support service discovery mechanisms and offers support for tree-based key-value structures.
+The seneca-etcd-registry driver uses etcd to support service discovery mechanisms; offering support for tree-based key-value structures.
 
 ## etcd
 etcd is distributed, consistent key value store for shared configuration and service discovery - https://github.com/coreos/etcd
