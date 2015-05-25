@@ -13,10 +13,10 @@ module.exports = function(options) {
 Etcd = require('node-etcd');
 etcd = new Etcd();
 
-seneca.add('role:registry,cmd:set', 	cmd_set)
-seneca.add('role:registry,cmd:get', 	cmd_get)
-seneca.add('role:registry,cmd:remove',	cmd_remove)
-seneca.add('role:registry,cmd:list',	cmd_list)
+seneca.add('role:etcd-registry,cmd:set', 	cmd_set)
+seneca.add('role:etcd-registry,cmd:get', 	cmd_get)
+seneca.add('role:etcd-registry,cmd:remove',	cmd_remove)
+seneca.add('role:etcd-registry,cmd:list',	cmd_list)
 
 function cmd_set( args, done ){
   var keyparts = parsekey(args.key)
@@ -40,12 +40,12 @@ function cmd_remove( args, done ){
   done()
 }
 
-seneca.add('init:registry',function(args,done){
+seneca.add('init:etcd-registry',function(args,done){
   done()
 })
 
 return {
-  name:"registry"
+  name:"etcd-registry"
 }
 
 function parsekey( keystr ){
