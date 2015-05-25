@@ -21,12 +21,12 @@ describe('plugin', function(){
     si
       .start(fin)
 
-      .wait('role:registry,cmd:set,key:k1,value:v1')
+      .wait('role:etcd-registry,cmd:set,key:k1,value:v1')
       .step(function(){
         return true;
       })
 
-      .wait('role:registry,cmd:get,key:k1')
+      .wait('role:etcd-registry,cmd:get,key:k1')
       .step(function(data){
         assert('v1'==data.value)
         return true;
@@ -43,49 +43,49 @@ describe('plugin', function(){
     si
       .start(fin)
 
-      .wait('role:registry,cmd:set,key:k1,value:v1')
-      .wait('role:registry,cmd:remove,key:k1')
+      .wait('role:etcd-registry,cmd:set,key:k1,value:v1')
+      .wait('role:etcd-registry,cmd:remove,key:k1')
 
-      .wait('role:registry,cmd:get,key:k1')
+      .wait('role:etcd-registry,cmd:get,key:k1')
       .step(function(data){
         assert(null==data.value)
         return true;
       })
 
-      .wait('role:registry,cmd:set,key:k1/m1,value:v2')
-      .wait('role:registry,cmd:set,key:k1/m2,value:v3')
+      .wait('role:etcd-registry,cmd:set,key:k1/m1,value:v2')
+      .wait('role:etcd-registry,cmd:set,key:k1/m2,value:v3')
       .step(function(){
         return true;
       })
 
-      .wait('role:registry,cmd:remove,key:k1/m1')
+      .wait('role:etcd-registry,cmd:remove,key:k1/m1')
 
-      .wait('role:registry,cmd:get,key:k1/m1')
+      .wait('role:etcd-registry,cmd:get,key:k1/m1')
       .step(function(data){
         assert(null==data.value)
         return true;
       })
 
-      .wait('role:registry,cmd:get,key:k1/m2')
+      .wait('role:etcd-registry,cmd:get,key:k1/m2')
       .step(function(data){
         assert('v3'==data.value)
         return true;
       })
 
-      .wait('role:registry,cmd:set,key:k3/x/y,value:v4')
+      .wait('role:etcd-registry,cmd:set,key:k3/x/y,value:v4')
       .step(function(){
         return true;
       })
 
-      .wait('role:registry,cmd:remove,key:k3/x,recurse:true')
+      .wait('role:etcd-registry,cmd:remove,key:k3/x,recurse:true')
 
-      .wait('role:registry,cmd:get,key:k3/x/y')
+      .wait('role:etcd-registry,cmd:get,key:k3/x/y')
       .step(function(data){
         assert(null==data.value)
         return true;
       })
 
-      .wait('role:registry,cmd:get,key:k3/x')
+      .wait('role:etcd-registry,cmd:get,key:k3/x')
       .step(function(data){
         assert(null==data.value)
         return true;
@@ -102,29 +102,29 @@ describe('plugin', function(){
     si
       .start(fin)
 
-      .wait('role:registry,cmd:set,key:k1,value:v1')
+      .wait('role:etcd-registry,cmd:set,key:k1,value:v1')
 
-      .wait('role:registry,cmd:list,key:k1')
+      .wait('role:etcd-registry,cmd:list,key:k1')
       .step(function(data){
         assert.deepEqual(data.keys,[])
         return true;
       })
 
-      .wait('role:registry,cmd:set,key:k1/m1,value:v2')
-      .wait('role:registry,cmd:set,key:k1/m2,value:v3')
+      .wait('role:etcd-registry,cmd:set,key:k1/m1,value:v2')
+      .wait('role:etcd-registry,cmd:set,key:k1/m2,value:v3')
 
-      .wait('role:registry,cmd:list,key:k1')
+      .wait('role:etcd-registry,cmd:list,key:k1')
       .step(function(data){
         assert.deepEqual(data.keys,["m1","m2"])
         return true;
       })
 
-      .wait('role:registry,cmd:set,key:k3,value:v4')
-      .wait('role:registry,cmd:set,key:k3/x,value:v5')
-      .wait('role:registry,cmd:set,key:k3/x/y,value:v6')
-      .wait('role:registry,cmd:set,key:k3/x/z,value:v7')
+      .wait('role:etcd-registry,cmd:set,key:k3,value:v4')
+      .wait('role:etcd-registry,cmd:set,key:k3/x,value:v5')
+      .wait('role:etcd-registry,cmd:set,key:k3/x/y,value:v6')
+      .wait('role:etcd-registry,cmd:set,key:k3/x/z,value:v7')
 
-      .wait('role:registry,cmd:list,key:k3,recurse:true')
+      .wait('role:etcd-registry,cmd:list,key:k3,recurse:true')
       .step(function(data){
         assert.deepEqual(data.keys,["x","x/y","x/z"])
         return true;
